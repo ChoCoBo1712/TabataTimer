@@ -1,11 +1,11 @@
-package com.example.tabatatimer.data.entities
+package com.example.tabatatimer.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 @Entity(
     tableName = "sequence_timer",
-    primaryKeys = ["sequenceId", "timerId"]
+    primaryKeys = ["sequence_id", "timer_id"]
 )
 data class SequenceTimerCrossRef(
     @ColumnInfo(name = "sequence_id")

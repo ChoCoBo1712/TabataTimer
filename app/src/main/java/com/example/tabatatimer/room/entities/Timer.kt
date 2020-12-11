@@ -1,5 +1,6 @@
-package com.example.tabatatimer.data.entities
+package com.example.tabatatimer.room.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
