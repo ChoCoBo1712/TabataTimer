@@ -16,6 +16,6 @@ interface SequenceDao {
     @Query("SELECT * FROM sequence ORDER BY title ASC")
     fun getAll(): LiveData<List<SequenceWithTimers>>
 
-    @Query("SELECT * FROM sequence WHERE Id = :id")
+    @Query("SELECT * FROM sequence WHERE sequence_id = :id")
     fun get(id: Int) : SequenceWithTimers
 }
