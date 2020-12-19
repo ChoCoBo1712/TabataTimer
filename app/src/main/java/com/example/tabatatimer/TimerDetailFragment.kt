@@ -53,6 +53,7 @@ class TimerDetailFragment : Fragment() {
 
     private fun onSubmitClick(v: View)
     {
+
         Toast.makeText(requireContext(), "hey", Toast.LENGTH_SHORT).show()
     }
 

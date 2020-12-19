@@ -87,4 +87,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.90" />
 
+    <TextView
+        android:id="@+id/timer_title_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        app:layout_constraintBottom_toTopOf="@+id/timer_title_text"
+        app:layout_constraintStart_toStartOf="@+id/timer_title_text" />
+
+    <TextView
+        android:id="@+id/timer_preparation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/preparation"
+        app:layout_constraintBottom_toTopOf="@+id/timer_preparation_text"
+        app:layout_constraintStart_toStartOf="@+id/timer_preparation_text" />
+
+    <TextView
+        android:id="@+id/timer_workout_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/workout"
+        app:layout_constraintBottom_toTopOf="@+id/timer_workout_text"
+        app:layout_constraintStart_toStartOf="@+id/timer_workout_text" />
+
+    <TextView
+        android:id="@+id/timer_rest_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rest"
+        app:layout_constraintBottom_toTopOf="@+id/timer_rest_text"
+        app:layout_constraintStart_toStartOf="@+id/timer_rest_text" />
+
+    <TextView
+        android:id="@+id/timer_cycles_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cycles"
+        app:layout_constraintBottom_toTopOf="@+id/timer_cycles_text"
+        app:layout_constraintStart_toStartOf="@+id/timer_cycles_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
