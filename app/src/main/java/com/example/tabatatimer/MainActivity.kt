@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.add_timer -> {
-
+                supportFragmentManager.beginTransaction()
                 true
             }
             R.id.add_sequence -> {
