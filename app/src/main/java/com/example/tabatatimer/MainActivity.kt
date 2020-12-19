@@ -48,11 +48,11 @@ class MainActivity : AppCompatActivity() {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.add_timer -> {
-                Toast.makeText(this, "timer", Toast.LENGTH_SHORT).show()
+
                 true
             }
             R.id.add_sequence -> {
-                Toast.makeText(this, "sequence", Toast.LENGTH_SHORT).show()
+                //TODO: Add seq creation fragment
                 true
             }
             else -> false
