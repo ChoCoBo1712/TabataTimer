@@ -7,7 +7,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.nio.file.Files.delete
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +39,27 @@ class MainActivity : AppCompatActivity() {
         val popup = PopupMenu(this, v)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.add_popup, popup.menu)
+        popup.setOnMenuItemClickListener {
+            onMenuItemClick(it)
+        }
         popup.show()
     }
+
+    private fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.add_timer -> {
+                Toast.makeText(this, "timer", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.add_sequence -> {
+                Toast.makeText(this, "sequence", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> false
+        }
+    }
+
+
 
 //    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 //        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_timer_list) as TimerListFragment
