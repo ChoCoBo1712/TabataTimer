@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_add_timer"
+        android:title="@string/add_timer"
+        />
+    <item
+        android:id="@+id/popup_add_sequence"
+        android:title="@string/add_sequence"
+        />
+
+</menu>
