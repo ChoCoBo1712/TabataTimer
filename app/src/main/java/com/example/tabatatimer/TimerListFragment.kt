@@ -10,9 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.tabatatimer.dummy.DummyContent
 
-/**
- * A fragment representing a list of Items.
- */
 class TimerListFragment : Fragment() {
 
     private var columnCount = 1
@@ -31,7 +28,6 @@ class TimerListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_timer_list, container, false)
 
-        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
