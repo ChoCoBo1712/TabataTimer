@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -17,10 +19,15 @@ class TimerDetailFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_timer_detail, container, false)
+
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
 
-        return inflater.inflate(R.layout.fragment_timer_detail, container, false)
+        val button: Button = view.findViewById(R.id.timer_submit_button)
+        button.setOnClickListener(::onSubmitClick)
+
+        return view
     }
 
     override fun onDetach() {
@@ -28,6 +35,11 @@ class TimerDetailFragment : Fragment() {
         navBar.visibility = View.VISIBLE
 
         super.onDetach()
+    }
+
+    private fun onSubmitClick(v: View)
+    {
+        Toast.makeText(requireContext(), "hey", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
