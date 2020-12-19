@@ -16,6 +16,11 @@ class TimerDetailFragment : Fragment() {
 
     private val viewModel: TimerDetailViewModel by activityViewModels()
     private lateinit var navBar: BottomNavigationView
+    private lateinit var title: EditText
+    private lateinit var preparation: EditText
+    private lateinit var workout: EditText
+    private lateinit var rest: EditText
+    private lateinit var cycles: EditText
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -29,11 +34,11 @@ class TimerDetailFragment : Fragment() {
         val button: Button = view.findViewById(R.id.timer_submit_button)
         button.setOnClickListener(::onSubmitClick)
 
-        val title: EditText = view.findViewById(R.id.timer_title_text)
-        val preparation: EditText = view.findViewById(R.id.timer_preparation_text)
-        val workout: EditText = view.findViewById(R.id.timer_workout_text)
-        val rest: EditText = view.findViewById(R.id.timer_rest_text)
-        val cycles: EditText = view.findViewById(R.id.timer_cycles_text)
+        title = view.findViewById(R.id.timer_title_text)
+        preparation = view.findViewById(R.id.timer_preparation_text)
+        workout = view.findViewById(R.id.timer_workout_text)
+        rest = view.findViewById(R.id.timer_rest_text)
+        cycles = view.findViewById(R.id.timer_cycles_text)
 
         viewModel.title.observe(viewLifecycleOwner, { newValue -> title.setText(newValue) })
         viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue.toString())})
@@ -53,8 +58,7 @@ class TimerDetailFragment : Fragment() {
 
     private fun onSubmitClick(v: View)
     {
-
-        Toast.makeText(requireContext(), "hey", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), viewModel.title.value, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

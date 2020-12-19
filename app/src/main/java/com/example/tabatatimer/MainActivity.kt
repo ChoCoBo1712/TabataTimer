@@ -48,9 +48,8 @@ class MainActivity : AppCompatActivity() {
     private fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.add_timer -> {
-                val fragment = TimerDetailFragment.newInstance()
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container_full, fragment)
+                        .add(R.id.fragment_container, TimerDetailFragment.newInstance())
                         .addToBackStack(null)
                         .commit()
                 true
