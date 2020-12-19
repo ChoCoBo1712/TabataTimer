@@ -36,10 +36,10 @@ class TimerDetailFragment : Fragment() {
         val cycles: EditText = view.findViewById(R.id.timer_cycles_text)
 
         viewModel.title.observe(viewLifecycleOwner, { newValue -> title.setText(newValue) })
-        viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue)})
-        viewModel.workout.observe(viewLifecycleOwner, { newValue -> workout.setText(newValue)})
-        viewModel.rest.observe(viewLifecycleOwner, { newValue -> rest.setText(newValue)})
-        viewModel.cycles.observe(viewLifecycleOwner, { newValue -> cycles.setText(newValue)})
+        viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue.toString())})
+        viewModel.workout.observe(viewLifecycleOwner, { newValue -> workout.setText(newValue.toString())})
+        viewModel.rest.observe(viewLifecycleOwner, { newValue -> rest.setText(newValue.toString())})
+        viewModel.cycles.observe(viewLifecycleOwner, { newValue -> cycles.setText(newValue.toString())})
 
         return view
     }
