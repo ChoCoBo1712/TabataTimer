@@ -10,10 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.tabatatimer.repos.TimerRepository
 import com.example.tabatatimer.room.entities.Timer
 import com.example.tabatatimer.viewmodels.TimerDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.suspendCoroutine
 
 class TimerDetailFragment : Fragment() {
@@ -63,14 +66,16 @@ class TimerDetailFragment : Fragment() {
     private fun onSubmitClick(v: View)
     {
         val timer = Timer(
-                title = title.text.toString(),
-                preparation = preparation.text.toString().toInt(),
-                workout = workout.text.toString().toInt(),
-                rest = rest.text.toString().toInt(),
-                cycles = cycles.text.toString().toInt()
+            title = title.text.toString(),
+            preparation = preparation.text.toString().toInt(),
+            workout = workout.text.toString().toInt(),
+            rest = rest.text.toString().toInt(),
+            cycles = cycles.text.toString().toInt()
         )
-        val timerRepository = TimerRepository(requireContext())
-        timerRepository.insert(timer)
+//        viewLifecycleOwner.lifecycleScope.launch {}
+        lifecycleScope.launch {
+            TimerRepository.getInstance(requireContext()).insert(timer)
+        }
     }
 
     companion object {

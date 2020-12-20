@@ -8,10 +8,6 @@ import android.widget.TextView
 
 import com.example.tabatatimer.dummy.DummyContent.DummyItem
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class TimerListAdapter(
     private val values: List<DummyItem>
 ) : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
