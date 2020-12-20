@@ -1,15 +1,15 @@
 package com.example.tabatatimer
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabatatimer.repos.TimerRepository
+import com.example.tabatatimer.room.entities.Timer
 
 class TimerListFragment : Fragment() {
 
@@ -34,8 +34,28 @@ class TimerListFragment : Fragment() {
             timerListAdapter.timers = newValue
         })
 
-        timerListAdapter.onItemClick = {
-            Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
+        timerListAdapter.onItemClick = { timer: Timer, itemView: View ->
+            val popup = PopupMenu(requireContext(), itemView)
+            val menuInflater: MenuInflater = popup.menuInflater
+            menuInflater.inflate(R.menu.item_popup, popup.menu)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_start -> {
+                        //TODO
+                        true
+                    }
+                    R.id.item_edit -> {
+                        //TODO
+                        true
+                    }
+                    R.id.item_delete -> {
+                        //TODO
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
         }
 
         return view

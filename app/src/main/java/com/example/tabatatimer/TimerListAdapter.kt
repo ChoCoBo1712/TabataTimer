@@ -15,7 +15,7 @@ class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    var onItemClick: ((Timer) -> Unit)? = null
+    var onItemClick: ((Timer, View) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -24,7 +24,7 @@ class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
 
         if (timers != null) {
             viewHolder.itemView.setOnClickListener {
-                onItemClick?.invoke(timers!![viewHolder.adapterPosition])
+                onItemClick?.invoke(timers!![viewHolder.adapterPosition], viewHolder.itemView)
             }
         }
 
