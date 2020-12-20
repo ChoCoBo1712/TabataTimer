@@ -65,6 +65,9 @@ class TimerDetailFragment : Fragment() {
 
     private fun onSubmitClick(v: View)
     {
+        if (title.text.toString() == "") {
+            return
+        }
         val timer = Timer(
             title = title.text.toString(),
             preparation = preparation.text.toString().toInt(),
@@ -72,10 +75,10 @@ class TimerDetailFragment : Fragment() {
             rest = rest.text.toString().toInt(),
             cycles = cycles.text.toString().toInt()
         )
-//        viewLifecycleOwner.lifecycleScope.launch {}
         lifecycleScope.launch {
             TimerRepository.getInstance(requireContext()).insert(timer)
         }
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     companion object {
