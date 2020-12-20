@@ -5,12 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 
 import com.example.tabatatimer.dummy.DummyContent.DummyItem
+import com.example.tabatatimer.room.entities.Timer
+import java.sql.Time
 
-class TimerListAdapter(
-    private val values: List<DummyItem>
-) : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
+class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
+
+    var values: List<Timer>? = null
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,19 +26,26 @@ class TimerListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        if (values != null)
+        {
+            val item = values!![position]
+            holder.title.text = item.title
+        }
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int {
+        if (values != null)
+        {
+            return values!!.size
+        }
+        return 0
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
-        val contentView: TextView = view.findViewById(R.id.content)
+        val title: TextView = view.findViewById(R.id.adapter_title)
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + title.text + "'"
         }
     }
 }

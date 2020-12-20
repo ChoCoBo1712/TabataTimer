@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-//        bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.add_timer -> {
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, TimerDetailFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit()
+                    .replace(R.id.fragment_container, TimerDetailFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
                 true
             }
             R.id.add_sequence -> {
@@ -66,26 +66,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-//    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-//        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_timer_list) as TimerListFragment
-//        when(item.itemId) {
-//            R.id.nav_sequences -> {
-//                fragment.changeList(R.array.length)
-//                return@OnNavigationItemSelectedListener true
-//            }
-//            R.id.nav_timers -> {
-//                fragment.changeList(R.array.weight)
-//                return@OnNavigationItemSelectedListener true
-//            }
-//            R.id.nav_settings -> {
-//                fragment.changeList(R.array.volume)
-//                return@OnNavigationItemSelectedListener true
-//            }
-//            else -> {
-//                false
-//            }
-//        }
-//    }
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when(item.itemId) {
+            R.id.nav_sequences -> {
+                //TODO
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_timers -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, TimerListFragment.newInstance())
+                    .commit()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_settings -> {
+                //TODO
+                return@OnNavigationItemSelectedListener true
+            }
+            else -> {
+                false
+            }
+        }
+    }
 }
