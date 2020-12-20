@@ -15,4 +15,7 @@
     <string name="rest">Rest</string>
     <string name="cycles">Cycles</string>
     <string name="pattern">Pattern</string>
+    <string name="start">Start</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

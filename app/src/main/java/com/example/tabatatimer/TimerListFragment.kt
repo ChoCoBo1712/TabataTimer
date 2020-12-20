@@ -1,6 +1,8 @@
 package com.example.tabatatimer
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,9 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.tabatatimer.interfaces.OnItemClickListener
 import com.example.tabatatimer.repos.TimerRepository
+import com.example.tabatatimer.room.entities.Timer
 
 class TimerListFragment : Fragment() {
 
@@ -31,12 +35,7 @@ class TimerListFragment : Fragment() {
             view.addItemDecoration(DividerItemDecoration(view.context, 1))
         }
 
-        timerListAdapter.setOnItemClickListener(object : OnItemClickListener {
-            override fun onItemClick(item: Any) {
 
-            }
-
-        })
 
         TimerRepository.getInstance(requireContext()).getAll().observe(viewLifecycleOwner, { newValue ->
             timerListAdapter.values = newValue
