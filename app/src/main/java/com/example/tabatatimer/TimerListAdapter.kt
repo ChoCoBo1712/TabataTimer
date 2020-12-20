@@ -1,58 +1,54 @@
 package com.example.tabatatimer
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.TextView
-import androidx.lifecycle.LiveData
-import com.example.tabatatimer.interfaces.OnItemClickListener
-
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tabatatimer.room.entities.Timer
-import java.sql.Time
 
 class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
 
-    var values: List<Timer>? = null
+    var timers: List<Timer>? = null
     set(value) {
         field = value
         notifyDataSetChanged()
     }
 
-    private var itemClickListener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        itemClickListener = listener
-    }
+    var onItemClick: ((Timer) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_timer, parent, false)
-        return ViewHolder(view)
+        val viewHolder = ViewHolder(view)
+
+        if (timers != null) {
+            viewHolder.itemView.setOnClickListener {
+                onItemClick?.invoke(timers!![viewHolder.adapterPosition])
+            }
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (values != null)
+        if (timers != null)
         {
-            val item = values!![position]
+            val item = timers!![position]
             with(holder) {
                 title.text = item.title
                 preparation.text = item.preparation.toString()
                 workout.text = item.workout.toString()
                 rest.text = item.rest.toString()
                 cycles.text = item.cycles.toString()
-                itemView.setOnClickListener {
-
-                }
             }
         }
     }
 
     override fun getItemCount(): Int {
-        if (values != null)
+        if (timers != null)
         {
-            return values!!.size
+            return timers!!.size
         }
         return 0
     }
@@ -63,9 +59,5 @@ class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
         val workout: TextView = view.findViewById(R.id.adapter_workout)
         val rest: TextView = view.findViewById(R.id.adapter_rest)
         val cycles: TextView = view.findViewById(R.id.adapter_cycles)
-
-        override fun toString(): String {
-            return super.toString() + " '" + title.text + "'"
-        }
     }
 }
