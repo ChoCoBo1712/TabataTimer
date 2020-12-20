@@ -1,5 +1,6 @@
 package com.example.tabatatimer
 
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +10,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.example.tabatatimer.repos.TimerRepository
+import com.example.tabatatimer.room.entities.Timer
 import com.example.tabatatimer.viewmodels.TimerDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlin.coroutines.suspendCoroutine
 
 class TimerDetailFragment : Fragment() {
 
@@ -58,7 +62,15 @@ class TimerDetailFragment : Fragment() {
 
     private fun onSubmitClick(v: View)
     {
-        Toast.makeText(requireContext(), viewModel.title.value, Toast.LENGTH_SHORT).show()
+        val timer = Timer(
+                title = title.text.toString(),
+                preparation = preparation.text.toString().toInt(),
+                workout = workout.text.toString().toInt(),
+                rest = rest.text.toString().toInt(),
+                cycles = cycles.text.toString().toInt()
+        )
+        val timerRepository = TimerRepository(requireContext())
+        timerRepository.insert(timer)
     }
 
     companion object {

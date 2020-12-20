@@ -8,15 +8,15 @@ import androidx.room.PrimaryKey
 data class Timer(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "timer_id")
-    val id: Int = 0,
+    var id: Int = 0,
 
-    val title: String,
+    var title: String,
 
-    val preparation: Int,
+    var preparation: Int,
 
-    val workout: Int,
+    var workout: Int,
 
-    val rest: Int,
+    var rest: Int,
 
-    val cycles: Int
+    var cycles: Int
 )
