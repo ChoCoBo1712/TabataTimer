@@ -21,8 +21,6 @@ class TimerRepository private constructor(context: Context) {
     suspend fun insert(timer: Timer) {
         return withContext(Dispatchers.IO) {
             db.timerDao().insert(timer)
-            val list = db.timerDao().getAll()
-            val a = list.value?.size
         }
     }
 
