@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.add_timer -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, TimerDetailFragment.newInstance())
+                    .replace(R.id.fragment_container, TimerDetailFragment.newInstance(0))
                     .addToBackStack(null)
                     .commit()
                 true

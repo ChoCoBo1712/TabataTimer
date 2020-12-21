@@ -48,7 +48,7 @@ class TimerListFragment : Fragment() {
                     }
                     R.id.item_edit -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, TimerDetailFragment.newInstance())
+                                .replace(R.id.fragment_container, TimerDetailFragment.newInstance(timer.id))
                                 .addToBackStack(null)
                                 .commit()
                         true

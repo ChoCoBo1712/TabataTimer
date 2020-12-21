@@ -1,23 +1,21 @@
 package com.example.tabatatimer
 
-import android.os.AsyncTask
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.tabatatimer.repos.TimerRepository
 import com.example.tabatatimer.room.entities.Timer
 import com.example.tabatatimer.viewmodels.TimerDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
-import kotlin.coroutines.suspendCoroutine
 
 class TimerDetailFragment : Fragment() {
 
@@ -34,6 +32,7 @@ class TimerDetailFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_timer_detail, container, false)
+        val id = requireArguments().getInt("id", 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
@@ -47,11 +46,23 @@ class TimerDetailFragment : Fragment() {
         rest = view.findViewById(R.id.timer_rest_text)
         cycles = view.findViewById(R.id.timer_cycles_text)
 
+        lifecycleScope.launch {
+            val timer = TimerRepository.getInstance(requireContext()).get(id)
+            if (timer != null) {
+                viewModel.id = timer.id
+                viewModel.title.value = timer.title
+                viewModel.preparation.value = timer.preparation
+                viewModel.workout.value = timer.workout
+                viewModel.rest.value = timer.rest
+                viewModel.cycles.value = timer.cycles
+            }
+        }
+
         viewModel.title.observe(viewLifecycleOwner, { newValue -> title.setText(newValue) })
-        viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue.toString())})
-        viewModel.workout.observe(viewLifecycleOwner, { newValue -> workout.setText(newValue.toString())})
-        viewModel.rest.observe(viewLifecycleOwner, { newValue -> rest.setText(newValue.toString())})
-        viewModel.cycles.observe(viewLifecycleOwner, { newValue -> cycles.setText(newValue.toString())})
+        viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue.toString()) })
+        viewModel.workout.observe(viewLifecycleOwner, { newValue -> workout.setText(newValue.toString()) })
+        viewModel.rest.observe(viewLifecycleOwner, { newValue -> rest.setText(newValue.toString()) })
+        viewModel.cycles.observe(viewLifecycleOwner, { newValue -> cycles.setText(newValue.toString()) })
 
         return view
     }
@@ -66,14 +77,16 @@ class TimerDetailFragment : Fragment() {
     private fun onSubmitClick(v: View)
     {
         if (title.text.toString() == "") {
+            Toast.makeText(requireContext(), "Enter title", Toast.LENGTH_SHORT).show()
             return
         }
         val timer = Timer(
-            title = title.text.toString(),
-            preparation = preparation.text.toString().toInt(),
-            workout = workout.text.toString().toInt(),
-            rest = rest.text.toString().toInt(),
-            cycles = cycles.text.toString().toInt()
+                id = viewModel.id,
+                title = title.text.toString(),
+                preparation = preparation.text.toString().toInt(),
+                workout = workout.text.toString().toInt(),
+                rest = rest.text.toString().toInt(),
+                cycles = cycles.text.toString().toInt()
         )
         lifecycleScope.launch {
             TimerRepository.getInstance(requireContext()).insert(timer)
@@ -83,8 +96,12 @@ class TimerDetailFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(): TimerDetailFragment {
-            return TimerDetailFragment()
+        fun newInstance(id: Int): TimerDetailFragment {
+            val fragment = TimerDetailFragment()
+            val args = Bundle()
+            args.putInt("id", id)
+            fragment.arguments = args
+            return fragment
         }
     }
 }

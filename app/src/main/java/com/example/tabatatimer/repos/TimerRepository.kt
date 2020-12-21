@@ -18,6 +18,12 @@ class TimerRepository private constructor(context: Context) {
         return timers
     }
 
+    suspend fun get(id: Int): Timer {
+        return withContext(Dispatchers.IO) {
+            db.timerDao().get(id)
+        }
+    }
+
     suspend fun insert(timer: Timer) {
         return withContext(Dispatchers.IO) {
             db.timerDao().insert(timer)
