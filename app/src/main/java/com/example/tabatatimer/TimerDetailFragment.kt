@@ -16,7 +16,6 @@ import com.example.tabatatimer.repos.TimerRepository
 import com.example.tabatatimer.room.entities.Timer
 import com.example.tabatatimer.viewmodels.TimerDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 class TimerDetailFragment : Fragment() {
@@ -40,7 +39,7 @@ class TimerDetailFragment : Fragment() {
         navBar.visibility = View.GONE
 
         val button: Button = view.findViewById(R.id.timer_submit_button)
-        button.setOnClickListener(::onSubmitClick)
+        button.setOnClickListener(this::onSubmitClick)
 
         title = view.findViewById(R.id.timer_title_text)
         preparation = view.findViewById(R.id.timer_preparation_text)
@@ -88,6 +87,9 @@ class TimerDetailFragment : Fragment() {
                 if (s.toString() == "") {
                     viewModel.preparation = 0
                 }
+                else if (s.toString().toInt() > 3600) {
+                    preparation.setText(R.string.time_limit_prep)
+                }
                 else {
                     viewModel.preparation = s.toString().toInt()
                 }
@@ -99,6 +101,9 @@ class TimerDetailFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString() == "") {
                     viewModel.workout = 1
+                }
+                else if (s.toString().toInt() > 3600) {
+                    workout.setText(R.string.time_limit)
                 }
                 else {
                     viewModel.workout = s.toString().toInt()
@@ -112,6 +117,9 @@ class TimerDetailFragment : Fragment() {
                 if (s.toString() == "") {
                     viewModel.rest = 0
                 }
+                else if (s.toString().toInt() > 3600) {
+                    rest.setText(R.string.time_limit)
+                }
                 else {
                     viewModel.rest = s.toString().toInt()
                 }
@@ -123,6 +131,9 @@ class TimerDetailFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString() == "") {
                     viewModel.cycles = 1
+                }
+                else if (s.toString().toInt() > 99) {
+                    cycles.setText(R.string.cycles_max)
                 }
                 else {
                     viewModel.cycles = s.toString().toInt()
@@ -157,7 +168,7 @@ class TimerDetailFragment : Fragment() {
         lifecycleScope.launch {
             TimerRepository.getInstance(requireContext()).insert(timer)
         }
-        requireActivity().supportFragmentManager.popBackStack();
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
     companion object {
