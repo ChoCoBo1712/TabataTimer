@@ -1,6 +1,8 @@
 package com.example.tabatatimer
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +48,14 @@ class TimerDetailFragment : Fragment() {
         rest = view.findViewById(R.id.timer_rest_text)
         cycles = view.findViewById(R.id.timer_cycles_text)
 
+//        title.addTextChangedListener(object: TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+//            override fun afterTextChanged(s: Editable?) {
+//                viewModel.title.value = s.toString()
+//            }
+//        })
+
         lifecycleScope.launch {
             val timer = TimerRepository.getInstance(requireContext()).get(id)
             if (timer != null) {
@@ -55,6 +65,14 @@ class TimerDetailFragment : Fragment() {
                 viewModel.workout.value = timer.workout
                 viewModel.rest.value = timer.rest
                 viewModel.cycles.value = timer.cycles
+            }
+            else {
+                viewModel.id = id
+                viewModel.title.value = ""
+                viewModel.preparation.value = 0
+                viewModel.workout.value = 1
+                viewModel.rest.value = 0
+                viewModel.cycles.value = 1
             }
         }
 
@@ -91,7 +109,7 @@ class TimerDetailFragment : Fragment() {
         lifecycleScope.launch {
             TimerRepository.getInstance(requireContext()).insert(timer)
         }
-        requireActivity().getSupportFragmentManager().popBackStack();
+        requireActivity().supportFragmentManager.popBackStack();
     }
 
     companion object {

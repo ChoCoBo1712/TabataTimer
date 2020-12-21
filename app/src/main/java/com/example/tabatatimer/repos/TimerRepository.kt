@@ -18,7 +18,7 @@ class TimerRepository private constructor(context: Context) {
         return timers
     }
 
-    suspend fun get(id: Int): Timer {
+    suspend fun get(id: Int): Timer? {
         return withContext(Dispatchers.IO) {
             db.timerDao().get(id)
         }

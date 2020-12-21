@@ -16,5 +16,5 @@ interface TimerDao {
     fun getAll(): LiveData<List<Timer>>
 
     @Query("SELECT * FROM timer WHERE timer_id = :id")
-    fun get(id: Int) : Timer
+    fun get(id: Int) : Timer?
 }
