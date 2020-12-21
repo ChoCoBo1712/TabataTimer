@@ -1,5 +1,6 @@
 package com.example.tabatatimer
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +24,7 @@ class TimerDetailFragment : Fragment() {
 
     private val viewModel: TimerDetailViewModel by activityViewModels()
     private lateinit var navBar: BottomNavigationView
+    private lateinit var actionBar: ActionMenuItemView
     private lateinit var title: EditText
     private lateinit var preparation: EditText
     private lateinit var workout: EditText
@@ -37,6 +40,8 @@ class TimerDetailFragment : Fragment() {
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
+        actionBar = requireActivity().findViewById(R.id.action_add)
+        actionBar.visibility = View.GONE
 
         val button: Button = view.findViewById(R.id.timer_submit_button)
         button.setOnClickListener(this::onSubmitClick)
@@ -84,14 +89,16 @@ class TimerDetailFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString() == "") {
-                    viewModel.preparation = 0
-                }
-                else if (s.toString().toInt() > 3600) {
-                    preparation.setText(R.string.time_limit_prep)
-                }
-                else {
-                    viewModel.preparation = s.toString().toInt()
+                when {
+                    s.toString() == "" -> {
+                        viewModel.preparation = 0
+                    }
+                    s.toString().toInt() > 3600 -> {
+                        preparation.setText(R.string.time_limit_prep)
+                    }
+                    else -> {
+                        viewModel.preparation = s.toString().toInt()
+                    }
                 }
             }
         })
@@ -99,14 +106,16 @@ class TimerDetailFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString() == "") {
-                    viewModel.workout = 1
-                }
-                else if (s.toString().toInt() > 3600) {
-                    workout.setText(R.string.time_limit)
-                }
-                else {
-                    viewModel.workout = s.toString().toInt()
+                when {
+                    s.toString() == "" -> {
+                        viewModel.workout = 1
+                    }
+                    s.toString().toInt() > 3600 -> {
+                        workout.setText(R.string.time_limit)
+                    }
+                    else -> {
+                        viewModel.workout = s.toString().toInt()
+                    }
                 }
             }
         })
@@ -114,14 +123,16 @@ class TimerDetailFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString() == "") {
-                    viewModel.rest = 0
-                }
-                else if (s.toString().toInt() > 3600) {
-                    rest.setText(R.string.time_limit)
-                }
-                else {
-                    viewModel.rest = s.toString().toInt()
+                when {
+                    s.toString() == "" -> {
+                        viewModel.rest = 0
+                    }
+                    s.toString().toInt() > 3600 -> {
+                        rest.setText(R.string.time_limit)
+                    }
+                    else -> {
+                        viewModel.rest = s.toString().toInt()
+                    }
                 }
             }
         })
@@ -129,14 +140,16 @@ class TimerDetailFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString() == "") {
-                    viewModel.cycles = 1
-                }
-                else if (s.toString().toInt() > 99) {
-                    cycles.setText(R.string.cycles_max)
-                }
-                else {
-                    viewModel.cycles = s.toString().toInt()
+                when {
+                    s.toString() == "" -> {
+                        viewModel.cycles = 1
+                    }
+                    s.toString().toInt() > 99 -> {
+                        cycles.setText(R.string.cycles_max)
+                    }
+                    else -> {
+                        viewModel.cycles = s.toString().toInt()
+                    }
                 }
             }
         })
@@ -145,8 +158,8 @@ class TimerDetailFragment : Fragment() {
     }
 
     override fun onDetach() {
-        navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.VISIBLE
+        actionBar.visibility = View.VISIBLE
 
         super.onDetach()
     }
