@@ -48,39 +48,87 @@ class TimerDetailFragment : Fragment() {
         rest = view.findViewById(R.id.timer_rest_text)
         cycles = view.findViewById(R.id.timer_cycles_text)
 
-//        title.addTextChangedListener(object: TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-//            override fun afterTextChanged(s: Editable?) {
-//                viewModel.title.value = s.toString()
-//            }
-//        })
-
         lifecycleScope.launch {
             val timer = TimerRepository.getInstance(requireContext()).get(id)
             if (timer != null) {
                 viewModel.id = timer.id
-                viewModel.title.value = timer.title
-                viewModel.preparation.value = timer.preparation
-                viewModel.workout.value = timer.workout
-                viewModel.rest.value = timer.rest
-                viewModel.cycles.value = timer.cycles
+                viewModel.title = timer.title
+                viewModel.preparation = timer.preparation
+                viewModel.workout = timer.workout
+                viewModel.rest = timer.rest
+                viewModel.cycles = timer.cycles
             }
             else {
                 viewModel.id = id
-                viewModel.title.value = ""
-                viewModel.preparation.value = 0
-                viewModel.workout.value = 1
-                viewModel.rest.value = 0
-                viewModel.cycles.value = 1
+                viewModel.title = ""
+                viewModel.preparation = 0
+                viewModel.workout = 1
+                viewModel.rest = 0
+                viewModel.cycles = 1
             }
+
+            title.setText(viewModel.title)
+            preparation.setText(viewModel.preparation.toString())
+            workout.setText(viewModel.workout.toString())
+            rest.setText(viewModel.rest.toString())
+            cycles.setText(viewModel.cycles.toString())
         }
 
-        viewModel.title.observe(viewLifecycleOwner, { newValue -> title.setText(newValue) })
-        viewModel.preparation.observe(viewLifecycleOwner, { newValue -> preparation.setText(newValue.toString()) })
-        viewModel.workout.observe(viewLifecycleOwner, { newValue -> workout.setText(newValue.toString()) })
-        viewModel.rest.observe(viewLifecycleOwner, { newValue -> rest.setText(newValue.toString()) })
-        viewModel.cycles.observe(viewLifecycleOwner, { newValue -> cycles.setText(newValue.toString()) })
+        title.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.title = s.toString()
+            }
+        })
+        preparation.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() == "") {
+                    viewModel.preparation = 0
+                }
+                else {
+                    viewModel.preparation = s.toString().toInt()
+                }
+            }
+        })
+        workout.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() == "") {
+                    viewModel.workout = 1
+                }
+                else {
+                    viewModel.workout = s.toString().toInt()
+                }
+            }
+        })
+        rest.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() == "") {
+                    viewModel.rest = 0
+                }
+                else {
+                    viewModel.rest = s.toString().toInt()
+                }
+            }
+        })
+        cycles.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() == "") {
+                    viewModel.cycles = 1
+                }
+                else {
+                    viewModel.cycles = s.toString().toInt()
+                }
+            }
+        })
 
         return view
     }
@@ -100,11 +148,11 @@ class TimerDetailFragment : Fragment() {
         }
         val timer = Timer(
                 id = viewModel.id,
-                title = title.text.toString(),
-                preparation = preparation.text.toString().toInt(),
-                workout = workout.text.toString().toInt(),
-                rest = rest.text.toString().toInt(),
-                cycles = cycles.text.toString().toInt()
+                title = viewModel.title,
+                preparation = viewModel.preparation,
+                workout = viewModel.workout,
+                rest = viewModel.rest,
+                cycles = viewModel.cycles
         )
         lifecycleScope.launch {
             TimerRepository.getInstance(requireContext()).insert(timer)

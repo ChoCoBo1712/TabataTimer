@@ -8,11 +8,11 @@ import kotlinx.coroutines.launch
 
 class TimerDetailViewModel(
         var id: Int = 0,
-        var title: MutableLiveData<String> = MutableLiveData<String>().apply { postValue("") },
-        var preparation: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(0) },
-        var workout: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(1) },
-        var rest: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(0) },
-        var cycles: MutableLiveData<Int> = MutableLiveData<Int>().apply { postValue(1) }
+        var title: String = "",
+        var preparation: Int = 0,
+        var workout: Int = 1,
+        var rest: Int = 0,
+        var cycles: Int = 1
 ) : ViewModel() {
 
 
