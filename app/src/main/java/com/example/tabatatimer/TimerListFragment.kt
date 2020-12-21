@@ -5,11 +5,13 @@ import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tabatatimer.repos.TimerRepository
 import com.example.tabatatimer.room.entities.Timer
+import kotlinx.coroutines.launch
 
 class TimerListFragment : Fragment() {
 
@@ -45,11 +47,16 @@ class TimerListFragment : Fragment() {
                         true
                     }
                     R.id.item_edit -> {
-                        //TODO
+                        requireActivity().supportFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, TimerDetailFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit()
                         true
                     }
                     R.id.item_delete -> {
-                        //TODO
+                        lifecycleScope.launch {
+                            TimerRepository.getInstance(requireContext()).delete(timer)
+                        }
                         true
                     }
                     else -> false

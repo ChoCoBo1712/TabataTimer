@@ -24,5 +24,11 @@ class TimerRepository private constructor(context: Context) {
         }
     }
 
+    suspend fun delete(timer: Timer) {
+        return withContext(Dispatchers.IO) {
+            db.timerDao().delete(timer)
+        }
+    }
+
     companion object : SingletonHolder<TimerRepository, Context>(::TimerRepository)
 }
