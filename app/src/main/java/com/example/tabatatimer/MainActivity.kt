@@ -59,7 +59,10 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.add_sequence -> {
-                //TODO: Add seq creation fragment
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SequenceDetailFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
                 true
             }
             else -> false
