@@ -21,4 +21,9 @@
     <string name="cycles_max">99</string>
     <string name="time_limit">3600</string>
     <string name="time_limit_prep">60</string>
+    <string-array name="colours">
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Green</item>
+    </string-array>
 </resources>
