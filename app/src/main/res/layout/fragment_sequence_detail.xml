@@ -18,7 +18,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.05" />
+
+    <Spinner
+        android:id="@+id/sequence_colour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/sequence_title_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.20" />
 
     <EditText
         android:id="@+id/sequence_preparation_text"
@@ -32,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.30" />
+        app:layout_constraintVertical_bias="0.35" />
 
     <EditText
         android:id="@+id/sequence_workout_text"
@@ -46,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.50" />
 
     <EditText
         android:id="@+id/sequence_rest_text"
@@ -60,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.60" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <EditText
         android:id="@+id/sequence_cycles_text"
@@ -74,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintVertical_bias="0.80" />
 
     <Button
         android:id="@+id/sequence_submit_button"
@@ -85,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <TextView
         android:id="@+id/sequence_title_label"
@@ -94,6 +103,14 @@
         android:text="@string/title"
         app:layout_constraintBottom_toTopOf="@+id/sequence_title_text"
         app:layout_constraintStart_toStartOf="@+id/sequence_title_text" />
+
+    <TextView
+        android:id="@+id/sequence_colour_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/colour"
+        app:layout_constraintBottom_toTopOf="@+id/sequence_colour"
+        app:layout_constraintStart_toStartOf="@+id/sequence_colour" />
 
     <TextView
         android:id="@+id/sequence_preparation_label"

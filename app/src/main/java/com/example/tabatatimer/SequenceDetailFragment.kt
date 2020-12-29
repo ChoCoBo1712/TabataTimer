@@ -6,9 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,6 +41,11 @@ class SequenceDetailFragment : Fragment() {
 
         val button: Button = view.findViewById(R.id.sequence_submit_button)
         button.setOnClickListener(this::onSubmitClick)
+
+        val colour: Spinner = view.findViewById<Spinner>(R.id.sequence_colour)
+        val adapter = ArrayAdapter.createFromResource(requireActivity().applicationContext, R.array.colours, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        colour.adapter = adapter
 
         title = view.findViewById(R.id.sequence_title_text)
         preparation = view.findViewById(R.id.sequence_preparation_text)
