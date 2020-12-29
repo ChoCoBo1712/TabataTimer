@@ -41,14 +41,17 @@ class SequenceListFragment : Fragment() {
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.item_start -> {
-                        //TODO
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, TimerFragment.newInstance())
+                            .addToBackStack(null)
+                            .commit()
                         true
                     }
                     R.id.item_edit -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, SequenceDetailFragment.newInstance(sequence.id))
-                                .addToBackStack(null)
-                                .commit()
+                            .replace(R.id.fragment_container, SequenceDetailFragment.newInstance(sequence.id))
+                            .addToBackStack(null)
+                            .commit()
                         true
                     }
                     R.id.item_delete -> {
