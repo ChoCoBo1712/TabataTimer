@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        bottomNavigation.selectedItemId = R.id.nav_sequences
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

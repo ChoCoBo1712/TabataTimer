@@ -16,7 +16,7 @@ import com.example.tabatatimer.viewmodels.SequenceDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
-class SequenceDetailFragment : Fragment() {
+class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val viewModel: SequenceDetailViewModel by activityViewModels()
     private lateinit var navBar: BottomNavigationView
@@ -62,6 +62,7 @@ class SequenceDetailFragment : Fragment() {
                 viewModel.workout = sequence.workout
                 viewModel.rest = sequence.rest
                 viewModel.cycles = sequence.cycles
+                viewModel.colour = sequence.colour
             }
             else {
                 viewModel.id = id
@@ -70,6 +71,7 @@ class SequenceDetailFragment : Fragment() {
                 viewModel.workout = 1
                 viewModel.rest = 0
                 viewModel.cycles = 1
+                viewModel.colour = 0
             }
 
             title.setText(viewModel.title)
@@ -77,6 +79,7 @@ class SequenceDetailFragment : Fragment() {
             workout.setText(viewModel.workout.toString())
             rest.setText(viewModel.rest.toString())
             cycles.setText(viewModel.cycles.toString())
+            colour.setSelection(viewModel.colour)
         }
 
         title.addTextChangedListener(object: TextWatcher {
@@ -154,9 +157,16 @@ class SequenceDetailFragment : Fragment() {
                 }
             }
         })
+        colour.onItemSelectedListener = this
 
         return view
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        viewModel.colour = pos
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onDetach() {
         navBar.visibility = View.VISIBLE
@@ -178,7 +188,7 @@ class SequenceDetailFragment : Fragment() {
                 workout = viewModel.workout,
                 rest = viewModel.rest,
                 cycles = viewModel.cycles,
-                colour = 0
+                colour = viewModel.colour
         )
         lifecycleScope.launch {
             SequenceRepository.getInstance(requireContext()).insert(sequence)

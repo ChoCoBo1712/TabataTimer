@@ -1,5 +1,6 @@
 package com.example.tabatatimer
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,17 @@ class SequenceListAdapter() : RecyclerView.Adapter<SequenceListAdapter.ViewHolde
                 workout.text = item.workout.toString()
                 rest.text = item.rest.toString()
                 cycles.text = item.cycles.toString()
+                when(item.colour) {
+                    0 -> {
+                        itemView.setBackgroundColor(Color.BLUE)
+                    }
+                    1 -> {
+                        itemView.setBackgroundColor(Color.RED)
+                    }
+                    2 -> {
+                        itemView.setBackgroundColor(Color.GREEN)
+                    }
+                }
             }
         }
     }
