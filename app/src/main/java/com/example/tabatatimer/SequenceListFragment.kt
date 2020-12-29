@@ -42,7 +42,7 @@ class SequenceListFragment : Fragment() {
                 when (item.itemId) {
                     R.id.item_start -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, TimerFragment.newInstance())
+                            .replace(R.id.fragment_container, TimerFragment.newInstance(sequence.id))
                             .addToBackStack(null)
                             .commit()
                         true

@@ -16,6 +16,7 @@ class TimerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view =  inflater.inflate(R.layout.fragment_timer, container, false)
+        val id = requireArguments().getInt("id", 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
@@ -34,8 +35,12 @@ class TimerFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(): TimerFragment {
-            return TimerFragment()
+        fun newInstance(id: Int): SequenceDetailFragment {
+            val fragment = SequenceDetailFragment()
+            val args = Bundle()
+            args.putInt("id", id)
+            fragment.arguments = args
+            return fragment
         }
     }
 }
