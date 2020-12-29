@@ -67,9 +67,9 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
             else {
                 viewModel.id = id
                 viewModel.title = ""
-                viewModel.preparation = 0
+                viewModel.preparation = 1
                 viewModel.workout = 1
-                viewModel.rest = 0
+                viewModel.rest = 1
                 viewModel.cycles = 1
                 viewModel.colour = 0
             }
