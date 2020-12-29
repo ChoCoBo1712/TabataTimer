@@ -22,6 +22,9 @@
     <string name="colour">Colour</string>
     <string name="cycles_count">%d/%d cycles</string>
     <string name="finished">Finished!</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="play">Play</string>
     <string-array name="colours">
         <item>Blue</item>
         <item>Red</item>
