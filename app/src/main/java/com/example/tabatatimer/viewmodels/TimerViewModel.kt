@@ -12,4 +12,6 @@ data class TimerViewModel(
     var cycle: Int = 1,
     var cycles: Int = 1,
     var isRunning: Boolean = false,
+    var time: Int = 0,
+    var colour: Int = 0
 ) : ViewModel()
