@@ -1,9 +1,7 @@
-package com.example.tabatatimer.room.dao
+package com.example.tabatatimer.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.tabatatimer.room.entities.Sequence
-import com.example.tabatatimer.room.entities.SequenceWithTimers
 
 @Dao
 interface SequenceDao {
@@ -14,8 +12,8 @@ interface SequenceDao {
     fun delete(sequence: Sequence)
 
     @Query("SELECT * FROM sequence ORDER BY title ASC")
-    fun getAll(): LiveData<List<SequenceWithTimers>>
+    fun getAll(): LiveData<List<Sequence>>
 
     @Query("SELECT * FROM sequence WHERE sequence_id = :id")
-    fun get(id: Int) : SequenceWithTimers
+    fun get(id: Int) : Sequence?
 }

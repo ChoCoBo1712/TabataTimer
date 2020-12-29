@@ -3,40 +3,38 @@ package com.example.tabatatimer
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tabatatimer.repos.TimerRepository
-import com.example.tabatatimer.room.entities.Timer
+import com.example.tabatatimer.room.Sequence
 import kotlinx.coroutines.launch
 
-class TimerListFragment : Fragment() {
+class SequenceListFragment : Fragment() {
 
-    private lateinit var timerListAdapter: TimerListAdapter
+    private lateinit var sequenceListAdapter: SequenceListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_timer_list, container, false)
-        timerListAdapter = TimerListAdapter()
+        val view = inflater.inflate(R.layout.fragment_sequence_list, container, false)
+        sequenceListAdapter = SequenceListAdapter()
 
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = timerListAdapter
+                adapter = sequenceListAdapter
             }
             view.addItemDecoration(DividerItemDecoration(view.context, 1))
         }
 
-        TimerRepository.getInstance(requireContext()).getAll().observe(viewLifecycleOwner, { newValue ->
-            timerListAdapter.timers = newValue
+        SequenceRepository.getInstance(requireContext()).getAll().observe(viewLifecycleOwner, { newValue ->
+            sequenceListAdapter.sequences = newValue
         })
 
-        timerListAdapter.onItemClick = { timer: Timer, itemView: View ->
+        sequenceListAdapter.onItemClick = { sequence: Sequence, itemView: View ->
             val popup = PopupMenu(requireContext(), itemView)
             val menuInflater: MenuInflater = popup.menuInflater
             menuInflater.inflate(R.menu.item_popup, popup.menu)
@@ -48,14 +46,14 @@ class TimerListFragment : Fragment() {
                     }
                     R.id.item_edit -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, TimerDetailFragment.newInstance(timer.id))
+                                .replace(R.id.fragment_container, SequenceDetailFragment.newInstance(sequence.id))
                                 .addToBackStack(null)
                                 .commit()
                         true
                     }
                     R.id.item_delete -> {
                         lifecycleScope.launch {
-                            TimerRepository.getInstance(requireContext()).delete(timer)
+                            SequenceRepository.getInstance(requireContext()).delete(sequence)
                         }
                         true
                     }
@@ -70,8 +68,8 @@ class TimerListFragment : Fragment() {
 
     companion object {
 
-        fun newInstance(): TimerListFragment {
-            return TimerListFragment()
+        fun newInstance(): SequenceListFragment {
+            return SequenceListFragment()
         }
     }
 }

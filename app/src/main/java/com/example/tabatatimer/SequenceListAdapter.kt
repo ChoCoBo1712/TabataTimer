@@ -5,26 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tabatatimer.room.entities.Timer
+import com.example.tabatatimer.room.Sequence
 
-class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
+class SequenceListAdapter() : RecyclerView.Adapter<SequenceListAdapter.ViewHolder>() {
 
-    var timers: List<Timer>? = null
+    var sequences: List<Sequence>? = null
     set(value) {
         field = value
         notifyDataSetChanged()
     }
 
-    var onItemClick: ((Timer, View) -> Unit)? = null
+    var onItemClick: ((Sequence, View) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_timer, parent, false)
+            .inflate(R.layout.fragment_sequence, parent, false)
         val viewHolder = ViewHolder(view)
 
-        if (timers != null) {
+        if (sequences != null) {
             viewHolder.itemView.setOnClickListener {
-                onItemClick?.invoke(timers!![viewHolder.adapterPosition], viewHolder.itemView)
+                onItemClick?.invoke(sequences!![viewHolder.adapterPosition], viewHolder.itemView)
             }
         }
 
@@ -32,9 +32,9 @@ class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (timers != null)
+        if (sequences != null)
         {
-            val item = timers!![position]
+            val item = sequences!![position]
             with(holder) {
                 title.text = item.title
                 preparation.text = item.preparation.toString()
@@ -46,9 +46,9 @@ class TimerListAdapter() : RecyclerView.Adapter<TimerListAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        if (timers != null)
+        if (sequences != null)
         {
-            return timers!!.size
+            return sequences!!.size
         }
         return 0
     }
