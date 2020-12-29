@@ -174,7 +174,8 @@ class SequenceDetailFragment : Fragment() {
                 preparation = viewModel.preparation,
                 workout = viewModel.workout,
                 rest = viewModel.rest,
-                cycles = viewModel.cycles
+                cycles = viewModel.cycles,
+                colour = 0
         )
         lifecycleScope.launch {
             SequenceRepository.getInstance(requireContext()).insert(sequence)

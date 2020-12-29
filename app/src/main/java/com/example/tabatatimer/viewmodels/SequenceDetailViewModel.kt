@@ -12,6 +12,7 @@ data class SequenceDetailViewModel(
         var preparation: Int = 0,
         var workout: Int = 1,
         var rest: Int = 0,
-        var cycles: Int = 1
+        var cycles: Int = 1,
+        var colour: Int = 0
 ) : ViewModel()
 

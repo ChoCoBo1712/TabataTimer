@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId) {
             R.id.nav_sequences -> {
-                //TODO
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SequenceListFragment.newInstance())
+                    .commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_settings -> {

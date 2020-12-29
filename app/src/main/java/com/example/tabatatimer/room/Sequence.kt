@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "sequence")
-class Sequence(
+data class Sequence(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "sequence_id")
     var id: Int = 0,
@@ -18,9 +18,7 @@ class Sequence(
 
     var rest: Int,
 
-    var cycles: Int
-) {
-    override fun toString(): String {
-        return this.title
-    }
-}
+    var cycles: Int,
+
+    var colour: Int
+)
