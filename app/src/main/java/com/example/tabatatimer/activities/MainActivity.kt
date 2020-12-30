@@ -7,6 +7,7 @@ import android.view.MenuItem
 import com.example.tabatatimer.R
 import com.example.tabatatimer.fragments.SequenceDetailFragment
 import com.example.tabatatimer.fragments.SequenceListFragment
+import com.example.tabatatimer.fragments.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -47,7 +48,9 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_settings -> {
-                //TODO
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SettingsFragment.newInstance())
+                    .commit()
                 return@OnNavigationItemSelectedListener true
             }
             else -> {
