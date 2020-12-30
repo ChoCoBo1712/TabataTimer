@@ -103,11 +103,7 @@ class TimerService : Service() {
 
                     phase += 1
                     phaseTime(phase)
-
-                    val handler = Handler()
-                    handler.postDelayed({
-                        startTimer(counter.toLong())
-                    }, 2000)
+                    startTimer(counter.toLong())
                 }
                 else {
                     if (cycle < cycles) {
@@ -120,11 +116,8 @@ class TimerService : Service() {
                         sendBroadcast(bundle)
                         bundle.clear()
                         phase = 0
-
-                        val handler = Handler()
-                        handler.postDelayed({
-                            startTimer(counter.toLong())
-                        }, 2000)
+                        counter = preparation
+                        startTimer(counter.toLong())
                     }
                     else {
                         val mediaPlayer = MediaPlayer.create(this@TimerService, R.raw.finish)
@@ -133,6 +126,7 @@ class TimerService : Service() {
                         isRunning = false
                         cycle = 1
                         phase = 0
+                        counter = preparation
                         bundle.putString("message", "finished")
                         sendBroadcast(bundle)
                         bundle.clear()
@@ -141,7 +135,10 @@ class TimerService : Service() {
             }
 
             override fun onTick(timeLeft: Long) {
-                val left = (timeLeft / 1000) + 1
+                var left = (timeLeft / 1000) + 1
+                if (left > counter) {
+                    left -= 1
+                }
                 bundle.putString("message", "tick")
                 bundle.putLong("left", left)
                 sendBroadcast(bundle)

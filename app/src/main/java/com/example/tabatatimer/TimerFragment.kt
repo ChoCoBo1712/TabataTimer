@@ -122,6 +122,7 @@ class TimerFragment : Fragment() {
                             "finished" -> {
                                 phase.setText(R.string.finished)
                                 play.setImageResource(android.R.drawable.ic_media_play)
+                                countdown.text = "0"
                             }
                             "arrow" -> {
                                 countdown.text = intent.getIntExtra("counter", 1).toString()
@@ -175,6 +176,14 @@ class TimerFragment : Fragment() {
     }
 
     private fun onPlayClick(v: View) {
+        if (phase.text == resources.getString(R.string.finished)) {
+            phase.setText(R.string.preparation)
+            cycles.text = resources.getString(
+                    R.string.cycles_count,
+                    1,
+                    viewModel.cycles
+            )
+        }
         Intent(requireContext(), TimerService::class.java).also {
             val bundle = Bundle()
             bundle.putString("command", "playPause")
