@@ -1,23 +1,23 @@
 package com.example.tabatatimer
 
+import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.tabatatimer.viewmodels.TimerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 
 class TimerFragment : Fragment() {
 
@@ -30,8 +30,11 @@ class TimerFragment : Fragment() {
     private lateinit var phase: TextView
     private lateinit var countdown: TextView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view =  inflater.inflate(R.layout.fragment_timer, container, false)
         val id = requireArguments().getInt("id", 0)
 
@@ -70,7 +73,11 @@ class TimerFragment : Fragment() {
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
-            cycles.text = resources.getString(R.string.cycles_count, viewModel.cycle, viewModel.cycles)
+            cycles.text = resources.getString(
+                R.string.cycles_count,
+                viewModel.cycle,
+                viewModel.cycles
+            )
             title.text = viewModel.title
             countdown.text = viewModel.time.toString()
             when(viewModel.colour) {
@@ -83,6 +90,16 @@ class TimerFragment : Fragment() {
                 2 -> {
                     view.setBackgroundColor(Color.GREEN)
                 }
+            }
+
+            Intent(requireContext(), TimerService::class.java).also {
+                val bundle = Bundle()
+                bundle.putInt("preparation", viewModel.preparation)
+                bundle.putInt("workout", viewModel.workout)
+                bundle.putInt("rest", viewModel.rest)
+                bundle.putInt("cycles", viewModel.cycles)
+                it.putExtras(bundle)
+                requireContext().startService(it)
             }
         }
 
@@ -151,17 +168,29 @@ class TimerFragment : Fragment() {
                     phase.setText(R.string.rest)
                 }
             }
-            startTimer(viewModel.time.toLong())
+            Intent(requireContext(), TimerService::class.java).also {
+                val bundle = Bundle()
+                bundle.putString("command", "play")
+                it.putExtras(bundle)
+                requireContext().startService(it)
+            }
+            viewModel.isRunning = true
+            play.setImageResource(android.R.drawable.ic_media_pause)
         }
         else {
-            pauseTimer()
+            Intent(requireContext(), TimerService::class.java).also {
+                val bundle = Bundle()
+                bundle.putString("command", "pause")
+                it.putExtras(bundle)
+                requireContext().startService(it)
+            }
+            viewModel.isRunning = false
+            play.setImageResource(android.R.drawable.ic_media_play)
         }
     }
 
     private fun pauseTimer() {
         timer.cancel()
-        viewModel.isRunning = false
-        play.setImageResource(android.R.drawable.ic_media_play)
     }
 
     private fun startTimer(time: Long) {
@@ -170,8 +199,10 @@ class TimerFragment : Fragment() {
                 if (viewModel.phase < 2) {
                     val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.ring)
                     mediaPlayer.start()
+
                     viewModel.phase += 1
                     phaseTime(viewModel.phase)
+
                     val handler = Handler()
                     handler.postDelayed({
                         startTimer(viewModel.time.toLong())
@@ -181,10 +212,16 @@ class TimerFragment : Fragment() {
                     if (viewModel.cycle < viewModel.cycles) {
                         val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.ring)
                         mediaPlayer.start()
+
                         viewModel.cycle += 1
-                        cycles.text = resources.getString(R.string.cycles_count, viewModel.cycle, viewModel.cycles)
+                        cycles.text = resources.getString(
+                            R.string.cycles_count,
+                            viewModel.cycle,
+                            viewModel.cycles
+                        )
                         viewModel.phase = 0
                         phase.setText(R.string.preparation)
+
                         val handler = Handler()
                         handler.postDelayed({
                             startTimer(viewModel.time.toLong())
@@ -193,6 +230,7 @@ class TimerFragment : Fragment() {
                     else {
                         val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.finish)
                         mediaPlayer.start()
+
                         viewModel.cycle = 1
                         viewModel.phase = 0
                         phase.setText(R.string.finished)
@@ -210,14 +248,15 @@ class TimerFragment : Fragment() {
             }
         }
         timer.start()
-
-        viewModel.isRunning = true
-        play.setImageResource(android.R.drawable.ic_media_pause)
     }
 
     override fun onDetach() {
         navBar.visibility = View.VISIBLE
         actionBar.visibility = View.VISIBLE
+
+        Intent(requireContext(), TimerService::class.java).also {
+            requireContext().stopService(it)
+        }
 
         super.onDetach()
     }
