@@ -30,4 +30,5 @@
         <item>Red</item>
         <item>Green</item>
     </string-array>
+    <string name="splash">TabataTimer</string>
 </resources>
