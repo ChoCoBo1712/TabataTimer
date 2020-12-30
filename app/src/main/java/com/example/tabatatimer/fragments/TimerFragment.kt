@@ -1,25 +1,25 @@
-package com.example.tabatatimer
+package com.example.tabatatimer.fragments
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.tabatatimer.R
+import com.example.tabatatimer.SequenceRepository
+import com.example.tabatatimer.TimerService
 import com.example.tabatatimer.viewmodels.TimerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -35,7 +35,6 @@ class TimerFragment : Fragment() {
     private lateinit var phase: TextView
     private lateinit var countdown: TextView
     lateinit var receiver: BroadcastReceiver
-    private val MESSAGE = "message"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,7 +112,7 @@ class TimerFragment : Fragment() {
                             }
                             "cycles" -> {
                                 cycles.text = resources.getString(
-                                        R.string.cycles_count,
+                                    R.string.cycles_count,
                                         intent.getIntExtra("cycle", 1),
                                         viewModel.cycles
                                 )
@@ -179,7 +178,7 @@ class TimerFragment : Fragment() {
         if (phase.text == resources.getString(R.string.finished)) {
             phase.setText(R.string.preparation)
             cycles.text = resources.getString(
-                    R.string.cycles_count,
+                R.string.cycles_count,
                     1,
                     viewModel.cycles
             )

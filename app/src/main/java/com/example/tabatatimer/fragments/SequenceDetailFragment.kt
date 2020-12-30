@@ -1,4 +1,4 @@
-package com.example.tabatatimer
+package com.example.tabatatimer.fragments
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +11,8 @@ import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.tabatatimer.R
+import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.room.Sequence
 import com.example.tabatatimer.viewmodels.SequenceDetailViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -43,7 +45,8 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
         button.setOnClickListener(this::onSubmitClick)
 
         val colour: Spinner = view.findViewById<Spinner>(R.id.sequence_colour)
-        val adapter = ArrayAdapter.createFromResource(requireActivity().applicationContext, R.array.colours, android.R.layout.simple_spinner_item)
+        val adapter = ArrayAdapter.createFromResource(requireActivity().applicationContext,
+            R.array.colours, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colour.adapter = adapter
 

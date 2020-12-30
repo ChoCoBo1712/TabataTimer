@@ -1,4 +1,4 @@
-package com.example.tabatatimer
+package com.example.tabatatimer.fragments
 
 import android.os.Bundle
 import android.view.*
@@ -8,6 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tabatatimer.R
+import com.example.tabatatimer.SequenceListAdapter
+import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.room.Sequence
 import kotlinx.coroutines.launch
 
@@ -42,7 +45,10 @@ class SequenceListFragment : Fragment() {
                 when (item.itemId) {
                     R.id.item_start -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, TimerFragment.newInstance(sequence.id))
+                            .replace(
+                                R.id.fragment_container,
+                                TimerFragment.newInstance(sequence.id)
+                            )
                             .addToBackStack(null)
                             .commit()
                         true
