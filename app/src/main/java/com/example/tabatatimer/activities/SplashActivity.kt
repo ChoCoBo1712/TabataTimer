@@ -5,10 +5,12 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.preference.PreferenceManager
 import com.example.tabatatimer.Constants.LOCALE_PREFERENCE
 import com.example.tabatatimer.R
+import com.example.tabatatimer.themes.ActivityTheme
 import java.util.*
 
 class SplashActivity : AppCompatActivity() {
@@ -24,6 +26,8 @@ class SplashActivity : AppCompatActivity() {
         Locale.setDefault(locale)
         config.setLocale(locale)
         baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+
+        ActivityTheme.setActivityTheme(this)
 
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))

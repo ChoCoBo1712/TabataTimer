@@ -1,18 +1,22 @@
 package com.example.tabatatimer.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tabatatimer.Constants
 import com.example.tabatatimer.R
 import com.example.tabatatimer.SequenceListAdapter
 import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.room.Sequence
 import kotlinx.coroutines.launch
+import java.util.*
 
 class SequenceListFragment : Fragment() {
 

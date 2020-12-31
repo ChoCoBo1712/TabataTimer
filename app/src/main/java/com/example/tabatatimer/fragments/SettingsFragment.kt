@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat.recreate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.example.tabatatimer.Constants
 import com.example.tabatatimer.Constants.CLEAR_DATA_PREFERENCE
 import com.example.tabatatimer.Constants.LOCALE_PREFERENCE
 import com.example.tabatatimer.Constants.RECREATE
@@ -79,6 +80,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onDetach() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         preferences.unregisterOnSharedPreferenceChangeListener(listener)
+        updateLocale()
 
         super.onDetach()
     }

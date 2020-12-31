@@ -1,21 +1,28 @@
 package com.example.tabatatimer.activities
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.preference.PreferenceManager
+import com.example.tabatatimer.Constants
 import com.example.tabatatimer.Constants.RECREATE
 import com.example.tabatatimer.R
 import com.example.tabatatimer.fragments.SequenceDetailFragment
 import com.example.tabatatimer.fragments.SequenceListFragment
 import com.example.tabatatimer.fragments.SettingsFragment
+import com.example.tabatatimer.themes.ActivityTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        ActivityTheme.setActivityTheme(this)
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
