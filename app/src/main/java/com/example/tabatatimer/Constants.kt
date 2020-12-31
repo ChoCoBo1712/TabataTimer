@@ -23,4 +23,6 @@ object Constants {
     const val PREPARATION = "com.example.tabatatimer.PREPARATION"
     const val WORKOUT = "com.example.tabatatimer.WORKOUT"
     const val REST = "com.example.tabatatimer.REST"
+    const val NIGHT_MODE_PREFERENCE = "com.example.tabatatimer.NIGHT_MODE_PREFERENCE"
+    const val FONT_SIZE_PREFERENCE = "com.example.tabatatimer.FONT_SIZE_PREFERENCE"
 }
