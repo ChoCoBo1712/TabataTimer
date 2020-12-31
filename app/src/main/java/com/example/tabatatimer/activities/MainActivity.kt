@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.example.tabatatimer.Constants.RECREATE
 import com.example.tabatatimer.R
 import com.example.tabatatimer.fragments.SequenceDetailFragment
 import com.example.tabatatimer.fragments.SequenceListFragment
@@ -18,7 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        bottomNavigation.selectedItemId = R.id.nav_sequences
+        if (intent.getBooleanExtra(RECREATE, false)) {
+            bottomNavigation.selectedItemId = R.id.nav_settings
+        }
+        else {
+            bottomNavigation.selectedItemId = R.id.nav_sequences
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

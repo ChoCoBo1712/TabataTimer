@@ -17,6 +17,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.tabatatimer.Constants.ARROW
+import com.example.tabatatimer.Constants.COUNTER
+import com.example.tabatatimer.Constants.CYCLE
+import com.example.tabatatimer.Constants.CYCLES
+import com.example.tabatatimer.Constants.FINISHED
+import com.example.tabatatimer.Constants.ID
+import com.example.tabatatimer.Constants.IMAGE
+import com.example.tabatatimer.Constants.LEFT
+import com.example.tabatatimer.Constants.MESSAGE
+import com.example.tabatatimer.Constants.NEXT
+import com.example.tabatatimer.Constants.PHASE
+import com.example.tabatatimer.Constants.PLAY
+import com.example.tabatatimer.Constants.PLAY_PAUSE
+import com.example.tabatatimer.Constants.PREPARATION
+import com.example.tabatatimer.Constants.PREV
+import com.example.tabatatimer.Constants.REST
+import com.example.tabatatimer.Constants.TICK
+import com.example.tabatatimer.Constants.WORKOUT
 import com.example.tabatatimer.R
 import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.TimerService
@@ -41,7 +59,7 @@ class TimerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_timer, container, false)
-        val id = requireArguments().getInt("id", 0)
+        val id = requireArguments().getInt(ID, 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
@@ -98,37 +116,37 @@ class TimerFragment : Fragment() {
             }
 
             val filter = IntentFilter()
-            filter.addAction("message")
+            filter.addAction(MESSAGE)
             receiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent?) {
                     if (intent != null) {
-                        val message = intent.getStringExtra("message")
+                        val message = intent.getStringExtra(MESSAGE)
                         when (message) {
-                            "tick" -> {
-                                countdown.text = intent.getLongExtra("left", 1).toString()
+                            TICK -> {
+                                countdown.text = intent.getLongExtra(LEFT, 1).toString()
                             }
-                            "phase" -> {
-                                phase.setText(intent.getIntExtra("phase", 0))
+                            PHASE -> {
+                                phase.setText(intent.getIntExtra(PHASE, 0))
                             }
-                            "cycles" -> {
+                            CYCLES -> {
                                 cycles.text = resources.getString(
                                     R.string.cycles_count,
-                                        intent.getIntExtra("cycle", 1),
+                                        intent.getIntExtra(CYCLE, 1),
                                         viewModel.cycles
                                 )
                                 phase.setText(R.string.preparation)
                             }
-                            "finished" -> {
+                            FINISHED -> {
                                 phase.setText(R.string.finished)
                                 play.setImageResource(android.R.drawable.ic_media_play)
                                 countdown.text = "0"
                             }
-                            "arrow" -> {
-                                countdown.text = intent.getIntExtra("counter", 1).toString()
+                            ARROW -> {
+                                countdown.text = intent.getIntExtra(COUNTER, 1).toString()
                             }
-                            "playPause" -> {
+                            PLAY_PAUSE -> {
                                 when {
-                                    intent.getStringExtra("image") == "play" -> {
+                                    intent.getStringExtra(IMAGE) == PLAY -> {
                                         play.setImageResource(android.R.drawable.ic_media_play)
                                     }
                                     else -> {
@@ -144,10 +162,10 @@ class TimerFragment : Fragment() {
 
             Intent(requireContext(), TimerService::class.java).also {
                 val bundle = Bundle()
-                bundle.putInt("preparation", viewModel.preparation)
-                bundle.putInt("workout", viewModel.workout)
-                bundle.putInt("rest", viewModel.rest)
-                bundle.putInt("cycles", viewModel.cycles)
+                bundle.putInt(PREPARATION, viewModel.preparation)
+                bundle.putInt(WORKOUT, viewModel.workout)
+                bundle.putInt(REST, viewModel.rest)
+                bundle.putInt(CYCLES, viewModel.cycles)
                 it.putExtras(bundle)
                 requireContext().startService(it)
             }
@@ -159,7 +177,7 @@ class TimerFragment : Fragment() {
     private fun onNextClick(v: View) {
         Intent(requireContext(), TimerService::class.java).also {
             val bundle = Bundle()
-            bundle.putString("command", "next")
+            bundle.putString(MESSAGE, NEXT)
             it.putExtras(bundle)
             requireContext().startService(it)
         }
@@ -168,7 +186,7 @@ class TimerFragment : Fragment() {
     private fun onPrevClick(v: View) {
         Intent(requireContext(), TimerService::class.java).also {
             val bundle = Bundle()
-            bundle.putString("command", "prev")
+            bundle.putString(MESSAGE, PREV)
             it.putExtras(bundle)
             requireContext().startService(it)
         }
@@ -185,7 +203,7 @@ class TimerFragment : Fragment() {
         }
         Intent(requireContext(), TimerService::class.java).also {
             val bundle = Bundle()
-            bundle.putString("command", "playPause")
+            bundle.putString(MESSAGE, PLAY_PAUSE)
             it.putExtras(bundle)
             requireContext().startService(it)
         }
@@ -209,7 +227,7 @@ class TimerFragment : Fragment() {
         fun newInstance(id: Int): TimerFragment {
             val fragment = TimerFragment()
             val args = Bundle()
-            args.putInt("id", id)
+            args.putInt(ID, id)
             fragment.arguments = args
             return fragment
         }

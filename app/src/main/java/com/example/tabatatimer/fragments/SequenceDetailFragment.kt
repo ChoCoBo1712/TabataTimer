@@ -11,6 +11,7 @@ import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.tabatatimer.Constants.ID
 import com.example.tabatatimer.R
 import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.room.Sequence
@@ -34,7 +35,7 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sequence_detail, container, false)
-        val id = requireArguments().getInt("id", 0)
+        val id = requireArguments().getInt(ID, 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)
         navBar.visibility = View.GONE
@@ -44,9 +45,9 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val button: Button = view.findViewById(R.id.sequence_submit_button)
         button.setOnClickListener(this::onSubmitClick)
 
-        val colour: Spinner = view.findViewById<Spinner>(R.id.sequence_colour)
-        val adapter = ArrayAdapter.createFromResource(requireActivity().applicationContext,
-            R.array.colours, android.R.layout.simple_spinner_item)
+        val colour: Spinner = view.findViewById(R.id.sequence_colour)
+        val array = resources.getStringArray(R.array.colours)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, array)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colour.adapter = adapter
 
@@ -181,7 +182,7 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun onSubmitClick(v: View)
     {
         if (title.text.toString() == "") {
-            Toast.makeText(requireContext(), "Enter title", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), resources.getString(R.string.enter_title), Toast.LENGTH_SHORT).show()
             return
         }
         val sequence = Sequence(
@@ -204,7 +205,7 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
         fun newInstance(id: Int): SequenceDetailFragment {
             val fragment = SequenceDetailFragment()
             val args = Bundle()
-            args.putInt("id", id)
+            args.putInt(ID, id)
             fragment.arguments = args
             return fragment
         }

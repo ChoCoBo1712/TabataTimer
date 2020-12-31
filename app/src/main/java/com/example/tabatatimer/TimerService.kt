@@ -6,6 +6,24 @@ import android.media.MediaPlayer
 import android.os.*
 import android.util.Log
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.tabatatimer.Constants.ARROW
+import com.example.tabatatimer.Constants.COUNTER
+import com.example.tabatatimer.Constants.CYCLE
+import com.example.tabatatimer.Constants.CYCLES
+import com.example.tabatatimer.Constants.FINISHED
+import com.example.tabatatimer.Constants.IMAGE
+import com.example.tabatatimer.Constants.LEFT
+import com.example.tabatatimer.Constants.MESSAGE
+import com.example.tabatatimer.Constants.NEXT
+import com.example.tabatatimer.Constants.PAUSE
+import com.example.tabatatimer.Constants.PHASE
+import com.example.tabatatimer.Constants.PLAY
+import com.example.tabatatimer.Constants.PLAY_PAUSE
+import com.example.tabatatimer.Constants.PREPARATION
+import com.example.tabatatimer.Constants.PREV
+import com.example.tabatatimer.Constants.REST
+import com.example.tabatatimer.Constants.TICK
+import com.example.tabatatimer.Constants.WORKOUT
 
 class TimerService : Service() {
 
@@ -29,31 +47,31 @@ class TimerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null) {
-            val command = intent.getStringExtra("command")
-            if (command == null) {
-                preparation = intent.getIntExtra("preparation", 0)
-                workout = intent.getIntExtra("workout", 1)
-                rest = intent.getIntExtra("rest", 1)
-                cycles = intent.getIntExtra("cycles", 1)
+            val message = intent.getStringExtra(MESSAGE)
+            if (message == null) {
+                preparation = intent.getIntExtra(PREPARATION, 0)
+                workout = intent.getIntExtra(WORKOUT, 1)
+                rest = intent.getIntExtra(REST, 1)
+                cycles = intent.getIntExtra(CYCLES, 1)
                 counter = preparation
             }
 
-            if (command == "playPause") {
+            if (message == PLAY_PAUSE) {
                 if (!isRunning) {
                     isRunning = true
                     startTimer(counter.toLong())
-                    bundle.putString("image", "pause")
+                    bundle.putString(IMAGE, PAUSE)
                 }
                 else {
                     isRunning = false
                     pauseTimer()
-                    bundle.putString("image", "play")
+                    bundle.putString(IMAGE, PLAY)
                 }
-                bundle.putString("message", "playPause")
+                bundle.putString(MESSAGE, PLAY_PAUSE)
                 sendBroadcast(bundle)
                 bundle.clear()
             }
-            else if (command == "next") {
+            else if (message == NEXT) {
                 if (phase < 2) {
                     if (isRunning) {
                         pauseTimer()
@@ -64,14 +82,14 @@ class TimerService : Service() {
                     else {
                         phase += 1
                         phaseTime(phase)
-                        bundle.putString("message", "arrow")
-                        bundle.putInt("counter", counter)
+                        bundle.putString(MESSAGE, ARROW)
+                        bundle.putInt(COUNTER, counter)
                         sendBroadcast(bundle)
                         bundle.clear()
                     }
                 }
             }
-            else if (command == "prev") {
+            else if (message == PREV) {
                 if (phase > 0) {
                     if (isRunning) {
                         pauseTimer()
@@ -82,8 +100,8 @@ class TimerService : Service() {
                     else {
                         phase -= 1
                         phaseTime(phase)
-                        bundle.putString("message", "arrow")
-                        bundle.putInt("counter", counter)
+                        bundle.putString(MESSAGE, ARROW)
+                        bundle.putInt(COUNTER, counter)
                         sendBroadcast(bundle)
                         bundle.clear()
                     }
@@ -111,8 +129,8 @@ class TimerService : Service() {
                         mediaPlayer.start()
 
                         cycle += 1
-                        bundle.putString("message", "cycles")
-                        bundle.putInt("cycle", cycle)
+                        bundle.putString(MESSAGE, CYCLES)
+                        bundle.putInt(CYCLE, cycle)
                         sendBroadcast(bundle)
                         bundle.clear()
                         phase = 0
@@ -127,7 +145,7 @@ class TimerService : Service() {
                         cycle = 1
                         phase = 0
                         counter = preparation
-                        bundle.putString("message", "finished")
+                        bundle.putString(MESSAGE, FINISHED)
                         sendBroadcast(bundle)
                         bundle.clear()
                     }
@@ -139,8 +157,8 @@ class TimerService : Service() {
                 if (left > counter) {
                     left -= 1
                 }
-                bundle.putString("message", "tick")
-                bundle.putLong("left", left)
+                bundle.putString(MESSAGE, TICK)
+                bundle.putLong(LEFT, left)
                 sendBroadcast(bundle)
                 bundle.clear()
                 counter = left.toInt()
@@ -156,26 +174,26 @@ class TimerService : Service() {
     private fun phaseTime(phaseInt: Int) {
         when (phaseInt) {
             0 -> {
-                bundle.putInt("phase", R.string.preparation)
+                bundle.putInt(PHASE, R.string.preparation)
                 counter = preparation
             }
             1 -> {
-                bundle.putInt("phase", R.string.workout)
+                bundle.putInt(PHASE, R.string.workout)
                 counter = workout
             }
             2 -> {
-                bundle.putInt("phase", R.string.rest)
+                bundle.putInt(PHASE, R.string.rest)
                 counter = rest
             }
         }
-        bundle.putString("message", "phase")
+        bundle.putString(MESSAGE, PHASE)
         sendBroadcast(bundle)
         bundle.clear()
     }
 
     private fun sendBroadcast(bundle: Bundle) {
         val intent = Intent()
-        intent.action = "message"
+        intent.action = MESSAGE
         intent.putExtras(bundle)
         sendBroadcast(intent)
     }

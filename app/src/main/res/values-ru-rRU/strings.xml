@@ -10,7 +10,7 @@
     <string name="rest">Отдых</string>
     <string name="cycles">Циклы</string>
     <string name="pattern">Шаблон</string>
-    <string name="start">Стара</string>
+    <string name="start">Старт</string>
     <string name="edit">Изменить</string>
     <string name="delete">Удалить</string>
     <string name="cycles_max">99</string>
@@ -32,10 +32,9 @@
     <string name="language">Язык</string>
     <string name="font_size">Размер шрифта</string>
     <string name="clear_app_data">Очистить данные приложения</string>
+    <string name="blue">Синий</string>
+    <string name="red">Красный</string>
+    <string name="green">Зелёный</string>
+    <string name="enter_title">Введите название</string>
 
-    <string-array name="colours">
-        <item>Синий</item>
-        <item>Красный</item>
-        <item>Зелёный</item>
-    </string-array>
 </resources>
