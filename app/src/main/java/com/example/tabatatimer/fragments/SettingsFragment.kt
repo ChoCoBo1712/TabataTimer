@@ -18,9 +18,11 @@ import androidx.preference.PreferenceManager
 import com.example.tabatatimer.Constants
 import com.example.tabatatimer.Constants.CLEAR_DATA_PREFERENCE
 import com.example.tabatatimer.Constants.LOCALE_PREFERENCE
+import com.example.tabatatimer.Constants.NIGHT_MODE_PREFERENCE
 import com.example.tabatatimer.Constants.RECREATE
 import com.example.tabatatimer.R
 import com.example.tabatatimer.activities.MainActivity
+import com.example.tabatatimer.themes.ActivityTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 import java.util.prefs.PreferenceChangeEvent
@@ -48,12 +50,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        updateLocale()
+//        updateLocale()
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+        listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == NIGHT_MODE_PREFERENCE) {
+                ActivityTheme.setActivityTheme(requireContext())
+            }
             val intent = requireActivity().intent.putExtra(RECREATE, true)
-            requireActivity().overridePendingTransition(0, 0)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             requireActivity().finish()
             requireActivity().overridePendingTransition(0, 0)
@@ -80,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onDetach() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         preferences.unregisterOnSharedPreferenceChangeListener(listener)
-        updateLocale()
+//        updateLocale()
 
         super.onDetach()
     }
