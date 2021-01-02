@@ -8,10 +8,6 @@ data class TimerViewModel(
     var preparation: Int = 1,
     var workout: Int = 1,
     var rest: Int = 1,
-    var phase: Int = 0,
-    var cycle: Int = 1,
     var cycles: Int = 1,
-    var isRunning: Boolean = false,
-    var time: Int = 0,
     var colour: Int = 0
 ) : ViewModel()

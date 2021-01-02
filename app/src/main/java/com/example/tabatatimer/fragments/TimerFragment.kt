@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -88,10 +89,7 @@ class TimerFragment : Fragment() {
                 viewModel.preparation = sequence.preparation
                 viewModel.workout = sequence.workout
                 viewModel.rest = sequence.rest
-                viewModel.phase = 0
-                viewModel.cycle = 1
                 viewModel.cycles = sequence.cycles
-                viewModel.time = viewModel.preparation
                 viewModel.colour = sequence.colour
             }
             else {
@@ -100,11 +98,11 @@ class TimerFragment : Fragment() {
 
             cycles.text = resources.getString(
                 R.string.cycles_count,
-                viewModel.cycle,
+                1,
                 viewModel.cycles
             )
             title.text = viewModel.title
-            countdown.text = viewModel.time.toString()
+            countdown.text = viewModel.preparation.toString()
             when(viewModel.colour) {
                 0 -> {
                     view.setBackgroundColor(Color.BLUE)
@@ -216,6 +214,12 @@ class TimerFragment : Fragment() {
         actionBar.visibility = View.VISIBLE
 
         Intent(requireContext(), TimerService::class.java).also {
+            if (play.drawable.constantState == ContextCompat.getDrawable(requireContext(), android.R.drawable.ic_media_pause)!!.constantState) {
+                val bundle = Bundle()
+                bundle.putString(MESSAGE, PLAY_PAUSE)
+                it.putExtras(bundle)
+                requireContext().startService(it)
+            }
             requireContext().stopService(it)
         }
 
