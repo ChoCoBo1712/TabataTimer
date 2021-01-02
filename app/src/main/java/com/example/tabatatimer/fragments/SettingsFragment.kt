@@ -6,27 +6,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.core.app.ActivityCompat.recreate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.example.tabatatimer.Constants
 import com.example.tabatatimer.Constants.CLEAR_DATA_PREFERENCE
 import com.example.tabatatimer.Constants.LOCALE_PREFERENCE
 import com.example.tabatatimer.Constants.NIGHT_MODE_PREFERENCE
 import com.example.tabatatimer.Constants.RECREATE
 import com.example.tabatatimer.R
-import com.example.tabatatimer.activities.MainActivity
-import com.example.tabatatimer.themes.ActivityTheme
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.tabatatimer.PreferenceHelper
 import java.util.*
-import java.util.prefs.PreferenceChangeEvent
-import kotlin.concurrent.thread
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -50,19 +40,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-//        updateLocale()
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == NIGHT_MODE_PREFERENCE) {
-                ActivityTheme.setActivityTheme(requireContext())
+                PreferenceHelper.setActivityTheme(requireContext())
             }
             val intent = requireActivity().intent.putExtra(RECREATE, true)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             requireActivity().finish()
             requireActivity().overridePendingTransition(0, 0)
             startActivity(intent)
-            updateLocale()
+            PreferenceHelper.updateLocale(requireContext(), requireActivity())
         }
         preferences.registerOnSharedPreferenceChangeListener(listener)
     }
@@ -71,20 +60,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
     }
 
-    private fun updateLocale() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val lang = preferences.getString(LOCALE_PREFERENCE, "en")
-        val config = Configuration()
-        val locale = Locale(lang!!)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        requireActivity().baseContext.resources.updateConfiguration(config, requireActivity().baseContext.resources.displayMetrics)
-    }
-
     override fun onDetach() {
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         preferences.unregisterOnSharedPreferenceChangeListener(listener)
-//        updateLocale()
 
         super.onDetach()
     }

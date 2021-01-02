@@ -5,16 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.preference.PreferenceManager
-import com.example.tabatatimer.Constants
 import com.example.tabatatimer.Constants.LOCALE_PREFERENCE
 import com.example.tabatatimer.Constants.RECREATE
+import com.example.tabatatimer.PreferenceHelper
 import com.example.tabatatimer.R
 import com.example.tabatatimer.fragments.SequenceDetailFragment
 import com.example.tabatatimer.fragments.SequenceListFragment
 import com.example.tabatatimer.fragments.SettingsFragment
-import com.example.tabatatimer.themes.ActivityTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
@@ -24,13 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val lang = preferences.getString(LOCALE_PREFERENCE, "en")
-        val config = Configuration()
-        val locale = Locale(lang!!)
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+        PreferenceHelper.updateLocale(this, this)
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)

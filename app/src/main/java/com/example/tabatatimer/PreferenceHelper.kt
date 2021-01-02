@@ -1,13 +1,15 @@
-package com.example.tabatatimer.themes
+package com.example.tabatatimer
 
+import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.example.tabatatimer.Constants.FONT_SIZE_PREFERENCE
 import com.example.tabatatimer.Constants.NIGHT_MODE_PREFERENCE
-import com.example.tabatatimer.R
+import java.util.*
 
-class ActivityTheme {
+class PreferenceHelper {
     companion object {
         fun setActivityTheme(context: Context) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -30,6 +32,16 @@ class ActivityTheme {
 //                }
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+        }
+
+        fun updateLocale(context: Context, activity: Activity) {
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val lang = preferences.getString(Constants.LOCALE_PREFERENCE, "en")
+            val config = Configuration()
+            val locale = Locale(lang!!)
+            Locale.setDefault(locale)
+            config.setLocale(locale)
+            activity.baseContext.resources.updateConfiguration(config, activity.baseContext.resources.displayMetrics)
         }
     }
 }
