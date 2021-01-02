@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.tabatatimer.Constants.ID
+import com.example.tabatatimer.PreferenceHelper
 import com.example.tabatatimer.R
 import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.room.Sequence
@@ -34,7 +35,8 @@ class SequenceDetailFragment : Fragment(), AdapterView.OnItemSelectedListener {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sequence_detail, container, false)
+        val view = PreferenceHelper.setTextSizeFragment(requireContext(), inflater)
+                .inflate(R.layout.fragment_sequence_detail, container, false)
         val id = requireArguments().getInt(ID, 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)

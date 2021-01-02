@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         PreferenceHelper.updateLocale(this, this)
-        PreferenceHelper.setActivityTheme(this)
+        PreferenceHelper.setNightMode(this)
 
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))

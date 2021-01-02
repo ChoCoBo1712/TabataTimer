@@ -35,6 +35,7 @@ import com.example.tabatatimer.Constants.PREV
 import com.example.tabatatimer.Constants.REST
 import com.example.tabatatimer.Constants.TICK
 import com.example.tabatatimer.Constants.WORKOUT
+import com.example.tabatatimer.PreferenceHelper
 import com.example.tabatatimer.R
 import com.example.tabatatimer.SequenceRepository
 import com.example.tabatatimer.TimerService
@@ -58,7 +59,8 @@ class TimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_timer, container, false)
+        val view =  PreferenceHelper.setTextSizeFragment(requireContext(), inflater)
+                .inflate(R.layout.fragment_timer, container, false)
         val id = requireArguments().getInt(ID, 0)
 
         navBar = requireActivity().findViewById(R.id.bottom_navigation)

@@ -10,10 +10,7 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tabatatimer.Constants
-import com.example.tabatatimer.R
-import com.example.tabatatimer.SequenceListAdapter
-import com.example.tabatatimer.SequenceRepository
+import com.example.tabatatimer.*
 import com.example.tabatatimer.room.Sequence
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,7 +23,8 @@ class SequenceListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sequence_list, container, false)
+        val view = PreferenceHelper.setTextSizeFragment(requireContext(), inflater)
+                .inflate(R.layout.fragment_sequence_list, container, false)
         sequenceListAdapter = SequenceListAdapter()
 
         if (view is RecyclerView) {
